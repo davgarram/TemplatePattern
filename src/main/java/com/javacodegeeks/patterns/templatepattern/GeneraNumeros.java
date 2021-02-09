@@ -14,11 +14,11 @@ public class GeneraNumeros {
 	{
 		return g.getFloat(); 
 	}
-	private float getFloat() {
+	public float getFloat() {
 		// TODO Auto-generated method stub
 		return a;
 	}
-	private void setFloat(float b) 
+	public void setFloat(float b) 
 	{
 		a=b;
 	}
