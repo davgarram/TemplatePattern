@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -31,6 +32,7 @@ class GeneraNumerosTest {
 	@Mock
 	private static GeneraNumeros g=Mockito.mock(GeneraNumeros.class);
 	private static Logger trazador=Logger.getLogger(GeneraNumerosTest.class.getName());
+	private static GeneraNumeros probado;
 	//Aqui se inyectan mocks, pero no hay nada que inyectar
 		
 	//Aqui se declaran capturadores de argumentos, pero no se va a emplear ninguno
@@ -44,8 +46,14 @@ class GeneraNumerosTest {
 		trazador.info("Iniciando Pruebas");
 		//Cada vez que alguien pida el número se va a devolver un 5
 		Mockito.when(g.getFloat()).thenReturn((float) 6.0);
+		probado=new GeneraNumeros();
 	}
+	@BeforeEach
+	void setUpBeforeEach() throws Exception {
 
+		//Reinicia el valor del Generador
+		probado.setFloat((float) 8);
+	}
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -68,8 +76,25 @@ class GeneraNumerosTest {
 			fail("No se ha devuelto la cadena correcta");
 			
 		}
-		
+		//Redundancia para probar que se conocen
+		assertFalse(GeneraNumeros.generarString()!="HelloWorld");
+		assertTrue(GeneraNumeros.generarString()=="HelloWorld");
 		trazador.info("String Generada con Exito");
 	}
+	@DisplayName("Prueba Cambiar Float")
+	@Test
+	public void SetFloatTest() {
+		probado.setFloat((float) 12.0);
+		assertNotEquals((float) 8.0,probado.getFloat(),"Error, no se ha cambiado con exito");
+		assertEquals((float) 12.0,probado.getFloat(),"Error, no se ha cambiado con exito al valor correcto");
+		Mockito.verifyZeroInteractions(g); //No se debe tocar el mock en este test
+		trazador.info("Copiado float con exito");
+	}
+	@DisplayName("Prueba Conseguir Float")
+	@Test
+	public void GetFloatTest() {
+		fail("No se ha implementado todavía");
+	}
+
 
 }
